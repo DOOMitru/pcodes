@@ -1,0 +1,66 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">  
+    <title>TRON Postal Codes</title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="css/normalize.css" rel="stylesheet" media="all">
+    <link href="css/styles.css" rel="stylesheet" media="all">   
+    <!--[if lt IE 9]><script src="js/html5shiv-printshiv.js" media="all"></script><![endif]-->
+
+    <style>
+
+    body {
+        margin: 0;
+        padding: 0;
+        font: 12px sans-serif;
+        height: 100vh;
+    }
+    h1, p {
+        margin: 0;
+        padding: 0;
+    }
+
+    </style>
+
+    <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js?v=3&amp;sensor=false"></script>
+    <script type="text/javascript" src="js/markerclusterer.js"></script>
+    <script type="text/javascript" src="codes.js"></script>
+    <script type="text/javascript">
+    google.maps.event.addDomListener(window, "load", function () {
+        var markers = [];
+        var map_div = document.getElementById("map_div");
+
+        var map = new google.maps.Map(map_div, {
+            center: new google.maps.LatLng(50.449234, -104.618013),
+            zoom: 12,
+            mapTypeId: google.maps.MapTypeId.ROADMAP
+        });
+
+        function AddMarker(item) {
+            for (var i = 0; i < item.count; i++) {
+                
+                var lat = item.count > 1 ? item.lat + (Math.random() / 500.0) : item.lat;
+                var lng = item.count > 1 ? item.lng + (Math.random() / 500.0) : item.lng;
+
+                console.log('lat: ' + lat + ', lng: ' + lng);
+
+                markers.push(new google.maps.Marker({ 
+                    position: new google.maps.LatLng(lat, lng)
+                }));
+            }
+        }
+
+        for (var i = 0; i < postal_codes.length; i++) {
+            AddMarker(postal_codes[i]);
+        }
+
+        var markerCluster = new MarkerClusterer(map, markers);
+    });
+    </script>
+</head>
+<body>
+<div id="map_div" style="height: 100vh;"></div>
+</body>
+</html>
